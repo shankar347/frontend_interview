@@ -4,10 +4,6 @@ import GOOGLE_TRANSLATE_LANGUAGE_OPTIONS from "../data/googleTranslateLanguageOp
 import "./Navbar.css"
 import logoImg from "../assets/icaebmslogo.png"
 import imgTranslate from "../assets/google-translate-DD3XrOIL.webp"
-import imgRegister from "../assets/register-now-B2uMY2n7.webp"
-import imgMail from "../assets/mail-CEoCDBNb.webp"
-import imgCall from "../assets/call-4IqBhOx_.webp"
-import imgPartner from "../assets/apply-for-academic-partner-MN3cTTIw.webp"
 
 const HYBRID_COPY = conference.hybridNotice
 
@@ -55,7 +51,7 @@ const navItems = [
       { label: "Terms and Conditions", href: "#registration" },
     ],
   },
-  { label: "Exhibits and Sponsors", href: "#footer", dropdown: false },
+  { label: "Exhibits & Sponsors", href: "#footer", dropdown: false },
   { label: "FAQ", href: "#footer", dropdown: false },
   { label: "Venue", href: "#hero", dropdown: false },
   { label: "Contact Us", href: "#footer", dropdown: false },
@@ -63,7 +59,7 @@ const navItems = [
 
 function IconChevronDown() {
   return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden style={{ marginLeft: 5, opacity: 0.95 }}>
+    <svg className="icaebms-nav-dd-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
@@ -82,24 +78,6 @@ function IconClose() {
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
-  )
-}
-
-function UtilityLink({ href, children, iconSrc, target, rel }) {
-  return (
-    <a href={href} target={target} rel={rel} className="icaebms-util-link">
-      <img src={iconSrc} alt="" loading="lazy" />
-      <span>{children}</span>
-    </a>
-  )
-}
-
-function MobileUtilityAction({ href, children, iconSrc, target, rel, onClick }) {
-  return (
-    <a href={href} target={target} rel={rel} className="icaebms-mob-util-link" onClick={onClick}>
-      <img src={iconSrc} alt="" loading="lazy" />
-      <span>{children}</span>
-    </a>
   )
 }
 
@@ -384,49 +362,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="icaebms-nav-tools">
-          <div className="icaebms-nav-tools-inner icaebms-utility-bar-row">
-            <div className="icaebms-translate-cluster-desktop icaebms-translate-cluster">
-              <LanguagePicker
-                id="icaebms-lang-desktop"
-                aria-label="Language Translate Widget"
-                options={GOOGLE_TRANSLATE_LANGUAGE_OPTIONS}
-                value={selectedLang}
-                onChange={applyLanguage}
-              />
-            </div>
-            <div className="icaebms-utility-links-row icaebms-util-links">
-              <UtilityLink href="#deadlines" iconSrc={imgRegister}>
-                Register Now
-              </UtilityLink>
-              <UtilityLink href={`mailto:${conference.email}`} iconSrc={imgMail}>
-                {conference.email}
-              </UtilityLink>
-              <UtilityLink href={`https://wa.me/${conference.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" iconSrc={imgCall}>
-                {conference.phone}
-              </UtilityLink>
-              <UtilityLink href="#footer" iconSrc={imgPartner}>
-                Apply for Academic Partner
-              </UtilityLink>
-            </div>
-          </div>
-        </div>
-
         <nav className="icaebms-nav-bar" aria-label="Main">
           <div className="icaebms-nav-bar-inner">
             <a href="#hero" className="icaebms-logo">
               <img src={logoImg} alt="ICAEBMS" className="icaebms-logo-img" />
             </a>
-
-            <button
-              type="button"
-              className="icaebms-menu-btn icaebms-nav-burger"
-              aria-expanded={menuOpen}
-              aria-label="Toggle menu"
-              onClick={() => setMenuOpen((v) => !v)}
-            >
-              {menuOpen ? <IconClose /> : <IconMenu />}
-            </button>
 
             <div className="icaebms-desktop-nav">
               <ul className="icaebms-nav-list">
@@ -463,26 +403,34 @@ export default function Navbar() {
               </ul>
             </div>
 
-            <a href="#deadlines" className="icaebms-login-desktop icaebms-nav-cta">
-              Login
-            </a>
+            <div className="icaebms-nav-corner" aria-label="Language and login">
+              <div className="icaebms-lang-shell--corner icaebms-translate-cluster">
+                <LanguagePicker
+                  id="icaebms-lang-main"
+                  aria-label="Language Translate Widget"
+                  options={GOOGLE_TRANSLATE_LANGUAGE_OPTIONS}
+                  value={selectedLang}
+                  onChange={applyLanguage}
+                />
+              </div>
+              <a href="#deadlines" className="icaebms-nav-cta">
+                Login
+              </a>
+            </div>
+
+            <button
+              type="button"
+              className="icaebms-menu-btn icaebms-nav-burger"
+              aria-expanded={menuOpen}
+              aria-label="Toggle menu"
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              {menuOpen ? <IconClose /> : <IconMenu />}
+            </button>
           </div>
 
           {menuOpen ? (
             <div className="icaebms-mobile-panel">
-              <div className="icaebms-mobile-lang">
-                <LanguagePicker
-                  id="icaebms-lang-mobile"
-                  aria-label="Language Translate Widget"
-                  options={GOOGLE_TRANSLATE_LANGUAGE_OPTIONS}
-                  value={selectedLang}
-                  selectExtraStyle={{ width: "100%", maxWidth: "100%", minWidth: 0, flex: 1 }}
-                  onChange={(code) => {
-                    applyLanguage(code)
-                    setMenuOpen(false)
-                  }}
-                />
-              </div>
               {navItems.map((item) => (
                 <div key={item.label}>
                   <a href={item.href} className="icaebms-mob-link" onClick={() => setMenuOpen(false)}>
@@ -497,46 +445,6 @@ export default function Navbar() {
                     : null}
                 </div>
               ))}
-              <p className="icaebms-mobile-only-util icaebms-mobile-util-label">Register &amp; contact</p>
-              <MobileUtilityAction
-                href="#deadlines"
-                iconSrc={imgRegister}
-                onClick={() => {
-                  setMenuOpen(false)
-                }}
-              >
-                Register Now
-              </MobileUtilityAction>
-              <MobileUtilityAction
-                href={`mailto:${conference.email}`}
-                iconSrc={imgMail}
-                onClick={() => {
-                  setMenuOpen(false)
-                }}
-              >
-                {conference.email}
-              </MobileUtilityAction>
-              <MobileUtilityAction
-                href={`tel:${conference.phone.replace(/\D/g, "")}`}
-                iconSrc={imgCall}
-                onClick={() => {
-                  setMenuOpen(false)
-                }}
-              >
-                {conference.phone}
-              </MobileUtilityAction>
-              <MobileUtilityAction
-                href="#footer"
-                iconSrc={imgPartner}
-                onClick={() => {
-                  setMenuOpen(false)
-                }}
-              >
-                Apply for Academic Partner
-              </MobileUtilityAction>
-              <a href="#deadlines" className="icaebms-nav-cta icaebms-nav-cta--block" onClick={() => setMenuOpen(false)}>
-                Login
-              </a>
             </div>
           ) : null}
         </nav>
