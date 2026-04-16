@@ -1,0 +1,102 @@
+.plm {
+  --plm-bg: #eceff4;
+  --plm-h: 76px;
+  position: relative;
+  background: var(--plm-bg);
+  border-block: 1px solid #d8dee9;
+  overflow: hidden;
+}
+
+.plm__viewport {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.65rem 0;
+}
+
+.plm__track {
+  display: flex;
+  width: max-content;
+  animation: plm-scroll 42s linear infinite;
+}
+
+.plm__track:hover {
+  animation-play-state: paused;
+}
+
+.plm__row {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0 1.25rem;
+  flex-shrink: 0;
+}
+
+.plm__cell {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--plm-h);
+  min-width: 112px;
+  max-width: 180px;
+}
+
+.plm__img {
+  max-height: var(--plm-h);
+  max-width: 160px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(0.08) contrast(1.02);
+  opacity: 0.94;
+}
+
+.plm__fade {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 2;
+}
+
+.plm__fade--left {
+  left: 0;
+  background: linear-gradient(90deg, var(--plm-bg), transparent);
+}
+
+.plm__fade--right {
+  right: 0;
+  background: linear-gradient(270deg, var(--plm-bg), transparent);
+}
+
+@keyframes plm-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plm__track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100% !important;
+    gap: 1rem;
+  }
+
+  .plm__row {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .plm__row:last-child {
+    display: none;
+  }
+}
