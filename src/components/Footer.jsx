@@ -137,25 +137,31 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer id="footer" className="ft">
-      <div className="ft__inner">
-        <div>
-          <img src={ceradaLogo} alt="CERADA" className="ft__brand-logo" width={88} height={88} />
-          <p className="ft__title">{conference.fullTitle}</p>
-          <p className="ft__theme">
-            Theme: <span style={{ fontStyle: "italic" }}>“{conference.theme}”</span>
+    <footer id="footer" className="site-footer">
+      <svg className="site-footer__wave" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden>
+        <path
+          fill="currentColor"
+          d="M0,24 C180,8 360,40 540,24 C720,8 900,40 1080,26 C1260,12 1380,20 1440,16 L1440,0 L0,0 Z"
+        />
+      </svg>
+      <div className="site-footer__inner">
+        <div className="site-footer__brand">
+          <img src={ceradaLogo} alt="CERADA" className="site-footer__brand-logo" width={88} height={88} />
+          <p className="site-footer__title">{conference.fullTitle}</p>
+          <p className="site-footer__theme">
+            Theme: <span>“{conference.theme}”</span>
           </p>
-          <p className="ft__org">
-            <strong style={{ color: "#cbd5e1" }}>Organized by:</strong> {conference.organizer}
+          <p className="site-footer__org">
+            <strong>Organized by:</strong> {conference.organizer}
           </p>
         </div>
 
-        <div>
-          <p className="ft__col-title">Explore</p>
-          <ul className="ft__links">
+        <div className="site-footer__col">
+          <p className="site-footer__col-title">Explore</p>
+          <ul className="site-footer__links">
             {navLinks.map(({ href, label, Icon }) => (
               <li key={href + label}>
-                <a className="ft__link" href={href}>
+                <a className="site-footer__link" href={href}>
                   <Icon />
                   {label}
                 </a>
@@ -164,12 +170,12 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div>
-          <p className="ft__col-title">Social</p>
-          <ul className="ft__links ft__social">
+        <div className="site-footer__col">
+          <p className="site-footer__col-title">Social</p>
+          <ul className="site-footer__links site-footer__social">
             {socialLinks.map(({ href, label, Icon }) => (
               <li key={label}>
-                <a className="ft__link" href={href}>
+                <a className="site-footer__link" href={href}>
                   <Icon />
                   {label}
                 </a>
@@ -178,9 +184,9 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div>
-          <p className="ft__col-title">Contact</p>
-          <div className="ft__contact">
+        <div className="site-footer__col">
+          <p className="site-footer__col-title">Contact</p>
+          <div className="site-footer__contact">
             <a href={`tel:${conference.phone.replace(/\s/g, "")}`}>
               <IcoPhone />
               {conference.phone}
@@ -190,13 +196,13 @@ export default function Footer() {
               {conference.email}
             </a>
           </div>
-          <hr className="ft__hr" />
-          <p className="ft__addr-label">Organizer Address</p>
-          <p className="ft__addr">{conference.organizerAddress}</p>
+          <hr className="site-footer__hr" />
+          <p className="site-footer__addr-label">Organizer address</p>
+          <p className="site-footer__addr">{conference.organizerAddress}</p>
         </div>
       </div>
 
-      <p className="ft__bottom">© {new Date().getFullYear()} CERADA. All Rights Reserved.</p>
+      <p className="site-footer__bottom">© {new Date().getFullYear()} CERADA. All rights reserved.</p>
     </footer>
   )
 }

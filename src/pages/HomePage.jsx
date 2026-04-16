@@ -187,36 +187,48 @@ function DeadlineGlyph({ type }) {
   const stroke = "currentColor"
   const sw = 1.75
   switch (type) {
-    case "bird":
+    case "tag":
       return (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
           <path
-            d="M16 7h.5M4 20h16M6 16l-2-4 4-2 2 4-4 2zm8-6l2-2 2 2-2 2-2-2z"
+            d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.82 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"
             stroke={stroke}
             strokeWidth={sw}
             strokeLinecap="round"
             strokeLinejoin="round"
           />
+          <circle cx="7.5" cy="7.5" r="1.5" fill={stroke} />
         </svg>
       )
     case "abstract":
       return (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path d="M12 20h9M3 20h3M7 4l10 16M9 4h6l-3 16" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+          <rect x="4" y="3" width="16" height="18" rx="2" stroke={stroke} strokeWidth={sw} />
+          <path d="M8 9h8M8 12h8M8 15h5" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
         </svg>
       )
     case "paper":
       return (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke={stroke} strokeWidth={sw} />
-          <path d="M14 2v6h6M8 13h8M8 17h6" stroke={stroke} strokeWidth={sw} />
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke={stroke} strokeWidth={sw} strokeLinejoin="round" />
+          <path d="M14 2v6h6" stroke={stroke} strokeWidth={sw} strokeLinejoin="round" />
+          <path d="M8 13h8M8 17h6" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
         </svg>
       )
+    case "register":
+      return (
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+          <circle cx="9" cy="7" r="4" stroke={stroke} strokeWidth={sw} />
+          <path d="M20 8v6M17 11h6" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+        </svg>
+      )
+    case "bird":
     case "calendar":
       return (
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
           <rect x="3" y="5" width="18" height="16" rx="2" stroke={stroke} strokeWidth={sw} />
-          <path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+          <path d="M3 10h18M8 3v4M16 3v4" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
         </svg>
       )
     default:
@@ -295,12 +307,25 @@ export default function HomePage() {
     <div className="home">
       <section className="home-hero" id="hero" aria-label="Conference hero">
         <div className="home-hero__bg" aria-hidden>
+          <video
+            className="home-hero__video-bg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
+          >
+            <source src={heroVideoMp4Remote} type="video/mp4" />
+            <source src={heroWebm} type="video/webm" />
+          </video>
           <div className="home-hero__veil" />
           <div className="home-hero__noise" />
         </div>
 
         <div className="home-hero__inner">
-          <div>
+          <div className="home-hero__copy">
             <p className="home-hero__kicker">ICAEBMS · 2026</p>
             <h1 className="home-hero__title">
               <strong>{conference.fullTitle}</strong>
@@ -329,31 +354,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          <aside className="home-hero-card" aria-label="Conference video">
-            <div className="home-hero-card__video-shell">
-              <div className="home-hero-card__video-inner">
-                <video
-                  className="home-hero-card__player"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback"
-                >
-                  <source src={heroVideoMp4Remote} type="video/mp4" />
-                  <source src={heroWebm} type="video/webm" />
-                </video>
-              </div>
-              <div className="home-hero-card__caption">
-                <div className="home-hero-card__lines">
-                  Conference · In Person + Online
-                  <span className="home-hero-card__sub">Date: {conference.dates}</span>
-                  <span className="home-hero-card__sub">Location: {conference.location}</span>
-                </div>
-              </div>
-            </div>
+          <aside className="home-hero-spotlight" aria-label="Conference snapshot">
+            <p className="home-hero-spotlight__eyebrow">Conference format</p>
+            <p className="home-hero-spotlight__head">Hybrid · In person + online</p>
+            <ul className="home-hero-spotlight__list">
+              <li>
+                <span className="home-hero-spotlight__dt">When</span>
+                <span className="home-hero-spotlight__dd">{conference.dates}</span>
+              </li>
+              <li>
+                <span className="home-hero-spotlight__dt">Where</span>
+                <span className="home-hero-spotlight__dd">{conference.location}</span>
+              </li>
+            </ul>
+            <a className="home-hero-spotlight__cta" href="#deadlines">
+              View submission timeline
+            </a>
           </aside>
         </div>
       </section>
@@ -497,27 +513,24 @@ export default function HomePage() {
           <h2 className="home-h2 home-deadlines__title">Submission deadlines</h2>
           <p className="home-deadlines__tag">Secure your spot — mark your calendar.</p>
           <div className="home-dcal-grid">
-            {deadlines.map((d) => {
+            {deadlines.map((d, idx) => {
               const { day, suf, monYear } = parseDeadlineParts(d.date)
-              const accent = Boolean(d.accentDate)
+              const tone = idx % 2 === 0 ? "cool" : "warm"
               return (
-                <article key={d.label} className="home-dcal">
-                  <div className="home-dcal__rings" aria-hidden>
-                    <span />
-                    <span />
-                  </div>
-                  <div className="home-dcal__head">
-                    <span className="home-dcal__glyph" aria-hidden>
+                <article key={d.label} className={`home-dcal home-dcal--${tone}`}>
+                  <div className="home-dcal__rail" aria-hidden />
+                  <div className="home-dcal__top">
+                    <span className={`home-dcal__glyph home-dcal__glyph--${tone}`} aria-hidden>
                       <DeadlineGlyph type={d.icon} />
                     </span>
                     <h3 className="home-dcal__label">{d.label}</h3>
                   </div>
-                  <div className={`home-dcal__body${accent ? " home-dcal__body--accent" : ""}`}>
-                    <div className="home-dcal__dayblock">
+                  <div className="home-dcal__date">
+                    <span className="home-dcal__dayrow">
                       <span className="home-dcal__day">{day}</span>
                       <span className="home-dcal__suf">{suf}</span>
-                    </div>
-                    <p className="home-dcal__my">{monYear}</p>
+                    </span>
+                    <span className="home-dcal__my">{monYear}</span>
                   </div>
                 </article>
               )
@@ -563,14 +576,19 @@ export default function HomePage() {
       <section className="home-section" id="publications">
         <div className="home-wrap">
           <div className="home-pub2">
-            <h2 className="home-pub2__title">Proceedings &amp; Publications</h2>
-            <div className="home-pub2__rule" aria-hidden />
-            <div className="home-pub2__badges">
-              <div className="home-pub2__badge">
-                <img src={scopusLogo} alt="Scopus" width={120} height={40} />
+            <div className="home-pub2__shell">
+              <div className="home-pub2__intro">
+                <p className="home-pub2__kicker">Indexing &amp; visibility</p>
+                <h2 className="home-pub2__title">Proceedings &amp; publications</h2>
+                <p className="home-pub2__lede">Conference outputs and partner indexing channels.</p>
               </div>
-              <div className="home-pub2__badge home-pub2__badge--sjr">
-                <img src={sjrLogo} alt="SCImago Journal Rank (SJR)" width={100} height={48} />
+              <div className="home-pub2__badges">
+                <div className="home-pub2__badge">
+                  <img src={scopusLogo} alt="Scopus" width={120} height={40} />
+                </div>
+                <div className="home-pub2__badge home-pub2__badge--sjr">
+                  <img src={sjrLogo} alt="SCImago Journal Rank (SJR)" width={100} height={48} />
+                </div>
               </div>
             </div>
             <div className="home-pub2__note">

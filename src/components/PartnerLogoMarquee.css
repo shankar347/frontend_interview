@@ -1,9 +1,9 @@
 .plm {
-  --plm-bg: #eceff4;
+  --plm-bg: #0f172a;
   --plm-h: 76px;
   position: relative;
-  background: var(--plm-bg);
-  border-block: 1px solid #d8dee9;
+  background: linear-gradient(90deg, #020617 0%, #1e1b4b 50%, #020617 100%);
+  border-block: 1px solid rgba(99, 102, 241, 0.25);
   overflow: hidden;
 }
 
@@ -49,8 +49,8 @@
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: grayscale(0.08) contrast(1.02);
-  opacity: 0.94;
+  filter: brightness(1.15) contrast(1.05) saturate(0.95);
+  opacity: 0.92;
 }
 
 .plm__fade {

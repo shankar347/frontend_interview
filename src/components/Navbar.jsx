@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { conference } from "../data/siteContent"
 import GOOGLE_TRANSLATE_LANGUAGE_OPTIONS from "../data/googleTranslateLanguageOptions.json"
+import "./Navbar.css"
 import logoImg from "../assets/icaebmslogo.png"
 import imgTranslate from "../assets/google-translate-DD3XrOIL.webp"
 import imgRegister from "../assets/register-now-B2uMY2n7.webp"
@@ -60,10 +61,6 @@ const navItems = [
   { label: "Contact Us", href: "#footer", dropdown: false },
 ]
 
-const royalBlue = "#003399"
-const loginOrange = "#d35400"
-const stripBrown = "#9a4a12"
-
 function IconChevronDown() {
   return (
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden style={{ marginLeft: 5, opacity: 0.95 }}>
@@ -88,47 +85,19 @@ function IconClose() {
   )
 }
 
-function UtilityLink({ href, children, iconSrc, target, rel, onMouseEnter, onMouseLeave }) {
+function UtilityLink({ href, children, iconSrc, target, rel }) {
   return (
-    <a
-      href={href}
-      target={target}
-      rel={rel}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 8,
-        color: "#0f2744",
-        textDecoration: "none",
-        fontSize: 13,
-        fontWeight: 700,
-        whiteSpace: "nowrap",
-      }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <img src={iconSrc} alt="" width={32} height={32} style={{ display: "block", flexShrink: 0, objectFit: "contain" }} loading="lazy" />
+    <a href={href} target={target} rel={rel} className="icaebms-util-link">
+      <img src={iconSrc} alt="" loading="lazy" />
       <span>{children}</span>
     </a>
   )
 }
 
-const mobileActionStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  padding: "11px 8px",
-  color: "#f1f5f9",
-  textDecoration: "none",
-  fontWeight: 600,
-  fontSize: 14,
-  borderBottom: "1px solid rgba(255,255,255,0.1)",
-}
-
 function MobileUtilityAction({ href, children, iconSrc, target, rel, onClick }) {
   return (
-    <a href={href} target={target} rel={rel} style={mobileActionStyle} onClick={onClick}>
-      <img src={iconSrc} alt="" width={28} height={28} style={{ display: "block", flexShrink: 0, objectFit: "contain" }} loading="lazy" />
+    <a href={href} target={target} rel={rel} className="icaebms-mob-util-link" onClick={onClick}>
+      <img src={iconSrc} alt="" loading="lazy" />
       <span>{children}</span>
     </a>
   )
@@ -159,56 +128,18 @@ function setGoogtransCookie(langCode) {
   document.cookie = `googtrans=/en/${langCode};path=${path}`
 }
 
-const langRowStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  flexShrink: 0,
-  minWidth: 0,
-}
-
-const langIconBoxStyle = {
-  width: 40,
-  height: 40,
-  borderRadius: 8,
-  background: "#2563eb",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  flexShrink: 0,
-  boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-}
-
-const langSelectStyle = {
-  fontWeight: 700,
-  fontSize: 14,
-  color: "#000",
-  border: "1px solid #c5ccd8",
-  borderRadius: 8,
-  padding: "8px 36px 8px 12px",
-  minWidth: 200,
-  maxWidth: "min(280px, 100%)",
-  background: "#fff",
-  cursor: "pointer",
-  appearance: "auto",
-  WebkitAppearance: "menulist",
-  fontFamily: "inherit",
-  lineHeight: 1.25,
-}
-
-function LanguagePicker({ id, "aria-label": ariaLabel, options, value, onChange, selectExtraStyle, rowExtraStyle }) {
-  const selectStyle = selectExtraStyle ? { ...langSelectStyle, ...selectExtraStyle } : langSelectStyle
-  const rowStyle = rowExtraStyle ? { ...langRowStyle, ...rowExtraStyle } : langRowStyle
+function LanguagePicker({ id, "aria-label": ariaLabel, options, value, onChange, selectExtraStyle, rowClassName }) {
+  const wide = selectExtraStyle?.width === "100%"
   return (
-    <div style={rowStyle}>
-      <div style={langIconBoxStyle} aria-hidden>
-        <img src={imgTranslate} alt="" width={28} height={28} style={{ display: "block", objectFit: "contain" }} />
+    <div className={`icaebms-lang-row${rowClassName ? ` ${rowClassName}` : ""}${wide ? " icaebms-lang-row--stretch" : ""}`.trim()}>
+      <div className="icaebms-lang-icon" aria-hidden>
+        <img src={imgTranslate} alt="" width={24} height={24} />
       </div>
       <select
         id={id}
-        className="goog-te-combo icaebms-lang-select"
+        className={`goog-te-combo icaebms-lang-select icaebms-lang-select--ui${wide ? " icaebms-lang-select--wide" : ""}`}
         aria-label={ariaLabel}
-        style={selectStyle}
+        style={selectExtraStyle || undefined}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
@@ -229,9 +160,6 @@ export default function Navbar() {
   const navWrapRef = useRef(null)
   const translateInitRef = useRef(false)
   const langSelectionSyncedRef = useRef(false)
-
-  const linkDefault = "#0f2744"
-  const linkHover = royalBlue
 
   useLayoutEffect(() => {
     const el = navWrapRef.current
@@ -444,292 +372,21 @@ export default function Navbar() {
     window.location.reload()
   }
 
-  const logoShadow = "0 2px 10px rgba(0, 51, 153, 0.12)"
-
-  const s = {
-    fixedWrap: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 9999,
-      fontFamily: "'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-      boxShadow: "0 4px 20px rgba(0, 40, 90, 0.2)",
-    },
-    strip: {
-      background: `linear-gradient(180deg, ${stripBrown} 0%, #b85714 50%, #c45c12 100%)`,
-      color: "#fff",
-      fontSize: 12,
-      fontWeight: 700,
-      lineHeight: 1.5,
-      letterSpacing: "0.06em",
-      textTransform: "uppercase",
-      overflow: "hidden",
-      borderBottom: "1px solid rgba(0,0,0,0.12)",
-    },
-    utility: {
-      backgroundColor: "#f5f5f0",
-      borderBottom: "1px solid #dcdcd4",
-    },
-    utilityRow: {
-      maxWidth: 1320,
-      margin: "0 auto",
-      padding: "11px 20px",
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 14,
-    },
-    translateCluster: { display: "flex", alignItems: "center", gap: 10, minWidth: 0 },
-    utilityLinks: {
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      gap: "11px 20px",
-    },
-    navMain: {
-      position: "relative",
-      backgroundColor: royalBlue,
-      color: "#fff",
-      borderBottom: "1px solid rgba(0,0,0,0.15)",
-    },
-    navRow: {
-      maxWidth: 1320,
-      margin: "0 auto",
-      padding: "10px 20px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 12,
-    },
-    logoBox: {
-      display: "flex",
-      alignItems: "center",
-      gap: 10,
-      backgroundColor: "#fff",
-      borderRadius: 2,
-      padding: "6px 12px",
-      textDecoration: "none",
-      boxShadow: logoShadow,
-      border: `1px solid ${royalBlue}`,
-      flexShrink: 0,
-    },
-    logoImg: {
-      height: 54,
-      width: "auto",
-      maxWidth: 200,
-      objectFit: "contain",
-      display: "block",
-      flexShrink: 0,
-    },
-    navList: {
-      listStyle: "none",
-      margin: 0,
-      padding: 0,
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "stretch",
-      justifyContent: "center",
-      gap: 0,
-    },
-    navLinkSimple: {
-      display: "inline-flex",
-      alignItems: "center",
-      color: "#e8eef7",
-      textDecoration: "none",
-      fontSize: 13,
-      fontWeight: 600,
-      padding: "10px 12px",
-      whiteSpace: "nowrap",
-      borderRadius: 2,
-      transition: "background 0.15s ease, color 0.15s ease",
-    },
-    loginBtn: {
-      backgroundColor: loginOrange,
-      color: "#fff",
-      fontWeight: 700,
-      fontSize: 14,
-      padding: "10px 22px",
-      borderRadius: 6,
-      textDecoration: "none",
-      border: "none",
-      cursor: "pointer",
-      boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-      flexShrink: 0,
-    },
-    menuBtn: {
-      background: "rgba(255,255,255,0.12)",
-      border: "1px solid rgba(255,255,255,0.28)",
-      color: "#fff",
-      padding: 8,
-      cursor: "pointer",
-      borderRadius: 6,
-    },
-    mobilePanel: {
-      borderTop: "1px solid rgba(255,255,255,0.15)",
-      padding: "10px 20px 16px",
-      backgroundColor: royalBlue,
-    },
-    mobileLink: {
-      display: "block",
-      color: "#fff",
-      textDecoration: "none",
-      padding: "10px 8px",
-      fontWeight: 600,
-      fontSize: 14,
-      borderBottom: "1px solid rgba(255,255,255,0.1)",
-    },
-    mobileSub: {
-      display: "block",
-      color: "#cbd5e1",
-      textDecoration: "none",
-      padding: "8px 8px 8px 20px",
-      fontSize: 13,
-      borderBottom: "1px solid rgba(255,255,255,0.06)",
-    },
-  }
-
   return (
     <>
-      <style>{`
-        @keyframes icaebmsMarquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .icaebms-marquee-wrap { overflow: hidden; width: 100%; }
-        .icaebms-marquee-track {
-          display: flex;
-          width: max-content;
-          white-space: nowrap;
-          animation: icaebmsMarquee 40s linear infinite;
-        }
-        .icaebms-marquee-track:hover { animation-play-state: paused; }
-        .icaebms-lang-select:focus {
-          outline: 2px solid ${royalBlue};
-          outline-offset: 2px;
-        }
-        .icaebms-nav-dd {
-          position: relative;
-          list-style: none;
-        }
-        .icaebms-nav-dd-trigger {
-          display: inline-flex;
-          align-items: center;
-          color: #e8eef7;
-          text-decoration: none;
-          font-size: 13px;
-          font-weight: 600;
-          padding: 10px 12px;
-          white-space: nowrap;
-          cursor: pointer;
-          border: none;
-          background: transparent;
-          font-family: inherit;
-          border-radius: 2px;
-        }
-        .icaebms-nav-dd-trigger:hover,
-        .icaebms-nav-dd:hover .icaebms-nav-dd-trigger {
-          background: rgba(255,255,255,0.12);
-          color: #fff;
-        }
-        .icaebms-nav-dd-panel {
-          position: absolute;
-          left: 0;
-          top: 100%;
-          padding-top: 6px;
-          min-width: 240px;
-          z-index: 10020;
-          opacity: 0;
-          visibility: hidden;
-          transform: translateY(6px);
-          transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
-          pointer-events: none;
-        }
-        .icaebms-nav-dd-panel-inner {
-          background: #fff;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-          box-shadow: 0 16px 48px rgba(15, 23, 42, 0.18);
-          padding: 6px 0;
-          overflow: hidden;
-        }
-        .icaebms-nav-dd-link {
-          display: block;
-          padding: 10px 18px;
-          font-size: 13px;
-          font-weight: 600;
-          color: #0f2744;
-          text-decoration: none;
-          border-bottom: 1px solid #f1f5f9;
-        }
-        .icaebms-nav-dd-link:last-child { border-bottom: none; }
-        .icaebms-nav-dd-link:hover {
-          background: #f0f7ff;
-          color: ${royalBlue};
-        }
-        .icaebms-nav-dd-link--accent {
-          color: ${loginOrange} !important;
-          font-weight: 800 !important;
-        }
-        .icaebms-nav-dd-link--accent:hover {
-          background: #fff7ed !important;
-          color: #b84300 !important;
-        }
-        .icaebms-nav-dd:hover .icaebms-nav-dd-panel,
-        .icaebms-nav-dd:focus-within .icaebms-nav-dd-panel {
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-          pointer-events: auto;
-        }
-        @media (max-width: 1100px) {
-          .icaebms-desktop-nav { display: none !important; }
-          .icaebms-menu-btn { display: block !important; }
-          .icaebms-login-desktop { display: none !important; }
-        }
-        @media (min-width: 1101px) {
-          .icaebms-desktop-nav {
-            display: flex !important;
-            flex: 1;
-            justify-content: center;
-            min-width: 0;
-            padding: 0 4px;
-          }
-          .icaebms-menu-btn { display: none !important; }
-          .icaebms-login-desktop { display: inline-flex !important; }
-          .icaebms-mobile-panel { display: none !important; }
-        }
-        @media (max-width: 1100px) {
-          .icaebms-utility-links-row { display: none !important; }
-          .icaebms-utility-bar-row {
-            justify-content: flex-start !important;
-          }
-        }
-        @media (min-width: 1101px) {
-          .icaebms-mobile-only-util { display: none !important; }
-        }
-        @media (max-width: 1100px) {
-          .icaebms-translate-cluster-desktop { display: none !important; }
-        }
-      `}</style>
-
-      <div ref={navWrapRef} style={s.fixedWrap}>
-        <div style={s.strip} role="note">
+      <div ref={navWrapRef} className="icaebms-nav-root">
+        <div className="icaebms-nav-ticker" role="note">
           <div className="icaebms-marquee-wrap">
             <div className="icaebms-marquee-track" aria-live="polite">
-              <span style={{ padding: "9px 56px 9px 0" }}>{HYBRID_COPY}</span>
-              <span style={{ padding: "9px 56px 9px 0" }} aria-hidden>
-                {HYBRID_COPY}
-              </span>
+              <span>{HYBRID_COPY}</span>
+              <span aria-hidden>{HYBRID_COPY}</span>
             </div>
           </div>
         </div>
 
-        <div style={s.utility}>
-          <div className="icaebms-utility-bar-row" style={s.utilityRow}>
-            <div className="icaebms-translate-cluster-desktop" style={s.translateCluster}>
+        <div className="icaebms-nav-tools">
+          <div className="icaebms-nav-tools-inner icaebms-utility-bar-row">
+            <div className="icaebms-translate-cluster-desktop icaebms-translate-cluster">
               <LanguagePicker
                 id="icaebms-lang-desktop"
                 aria-label="Language Translate Widget"
@@ -738,71 +395,32 @@ export default function Navbar() {
                 onChange={applyLanguage}
               />
             </div>
-            <div className="icaebms-utility-links-row" style={s.utilityLinks}>
-              <UtilityLink
-                href="#deadlines"
-                iconSrc={imgRegister}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = linkHover
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = linkDefault
-                }}
-              >
+            <div className="icaebms-utility-links-row icaebms-util-links">
+              <UtilityLink href="#deadlines" iconSrc={imgRegister}>
                 Register Now
               </UtilityLink>
-              <UtilityLink
-                href={`mailto:${conference.email}`}
-                iconSrc={imgMail}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = linkHover
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = linkDefault
-                }}
-              >
+              <UtilityLink href={`mailto:${conference.email}`} iconSrc={imgMail}>
                 {conference.email}
               </UtilityLink>
-              <UtilityLink
-                href={`https://wa.me/${conference.phone.replace(/\D/g, "")}`}
-                target="_blank"
-                rel="noreferrer"
-                iconSrc={imgCall}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#0d9488"
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = linkDefault
-                }}
-              >
+              <UtilityLink href={`https://wa.me/${conference.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" iconSrc={imgCall}>
                 {conference.phone}
               </UtilityLink>
-              <UtilityLink
-                href="#footer"
-                iconSrc={imgPartner}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = linkHover
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = linkDefault
-                }}
-              >
+              <UtilityLink href="#footer" iconSrc={imgPartner}>
                 Apply for Academic Partner
               </UtilityLink>
             </div>
           </div>
         </div>
 
-        <nav style={s.navMain} aria-label="Main">
-          <div style={s.navRow}>
-            <a href="#hero" style={s.logoBox}>
-              <img src={logoImg} alt="ICAEBMS" style={s.logoImg} />
+        <nav className="icaebms-nav-bar" aria-label="Main">
+          <div className="icaebms-nav-bar-inner">
+            <a href="#hero" className="icaebms-logo">
+              <img src={logoImg} alt="ICAEBMS" className="icaebms-logo-img" />
             </a>
 
             <button
               type="button"
-              className="icaebms-menu-btn"
-              style={s.menuBtn}
+              className="icaebms-menu-btn icaebms-nav-burger"
               aria-expanded={menuOpen}
               aria-label="Toggle menu"
               onClick={() => setMenuOpen((v) => !v)}
@@ -811,7 +429,7 @@ export default function Navbar() {
             </button>
 
             <div className="icaebms-desktop-nav">
-              <ul style={s.navList}>
+              <ul className="icaebms-nav-list">
                 {navItems.map((item) =>
                   item.dropdown && item.children ? (
                     <li key={item.label} className="icaebms-nav-dd">
@@ -836,18 +454,7 @@ export default function Navbar() {
                     </li>
                   ) : (
                     <li key={item.label} style={{ listStyle: "none" }}>
-                      <a
-                        href={item.href}
-                        style={s.navLinkSimple}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.12)"
-                          e.currentTarget.style.color = "#fff"
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "transparent"
-                          e.currentTarget.style.color = "#e8eef7"
-                        }}
-                      >
+                      <a href={item.href} className="icaebms-nav-link">
                         {item.label}
                       </a>
                     </li>
@@ -856,36 +463,19 @@ export default function Navbar() {
               </ul>
             </div>
 
-            <a
-              href="#deadlines"
-              className="icaebms-login-desktop"
-              style={{ ...s.loginBtn, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = "brightness(1.08)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = "none"
-              }}
-            >
+            <a href="#deadlines" className="icaebms-login-desktop icaebms-nav-cta">
               Login
             </a>
           </div>
 
           {menuOpen ? (
-            <div style={s.mobilePanel} className="icaebms-mobile-panel">
-              <div
-                style={{
-                  padding: "12px 8px 14px",
-                  borderBottom: "1px solid rgba(255,255,255,0.12)",
-                  marginBottom: 4,
-                }}
-              >
+            <div className="icaebms-mobile-panel">
+              <div className="icaebms-mobile-lang">
                 <LanguagePicker
                   id="icaebms-lang-mobile"
                   aria-label="Language Translate Widget"
                   options={GOOGLE_TRANSLATE_LANGUAGE_OPTIONS}
                   value={selectedLang}
-                  rowExtraStyle={{ width: "100%", alignSelf: "stretch" }}
                   selectExtraStyle={{ width: "100%", maxWidth: "100%", minWidth: 0, flex: 1 }}
                   onChange={(code) => {
                     applyLanguage(code)
@@ -895,31 +485,19 @@ export default function Navbar() {
               </div>
               {navItems.map((item) => (
                 <div key={item.label}>
-                  <a href={item.href} style={s.mobileLink} onClick={() => setMenuOpen(false)}>
+                  <a href={item.href} className="icaebms-mob-link" onClick={() => setMenuOpen(false)}>
                     {item.label}
                   </a>
                   {item.children
                     ? item.children.map((c) => (
-                        <a key={c.label} href={c.href} style={s.mobileSub} onClick={() => setMenuOpen(false)}>
+                        <a key={c.label} href={c.href} className="icaebms-mob-sub" onClick={() => setMenuOpen(false)}>
                           {c.label}
                         </a>
                       ))
                     : null}
                 </div>
               ))}
-              <p
-                className="icaebms-mobile-only-util"
-                style={{
-                  margin: "14px 8px 6px",
-                  fontSize: 11,
-                  fontWeight: 800,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "rgba(226,232,240,0.65)",
-                }}
-              >
-                Register &amp; contact
-              </p>
+              <p className="icaebms-mobile-only-util icaebms-mobile-util-label">Register &amp; contact</p>
               <MobileUtilityAction
                 href="#deadlines"
                 iconSrc={imgRegister}
@@ -956,11 +534,7 @@ export default function Navbar() {
               >
                 Apply for Academic Partner
               </MobileUtilityAction>
-              <a
-                href="#deadlines"
-                style={{ ...s.loginBtn, display: "block", textAlign: "center", marginTop: 12 }}
-                onClick={() => setMenuOpen(false)}
-              >
+              <a href="#deadlines" className="icaebms-nav-cta icaebms-nav-cta--block" onClick={() => setMenuOpen(false)}>
                 Login
               </a>
             </div>

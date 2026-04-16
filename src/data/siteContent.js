@@ -125,12 +125,12 @@ export const sessionTracks = [
   "Session 6: Finance, Accountancy and Marketing",
 ]
 
-/** PDF submission timeline. `accentDate` highlights final milestone in UI. */
+/** PDF submission timeline — icons map to `DeadlineGlyph` in HomePage.jsx */
 export const deadlines = [
-  { label: "Early Bird registration deadline", date: "31 Dec 2025", icon: "bird" },
+  { label: "Early Bird registration deadline", date: "31 Dec 2025", icon: "tag" },
   { label: "Abstract submission", date: "31 Jan 2026", icon: "abstract" },
   { label: "Full paper submission", date: "28 Feb 2026", icon: "paper" },
-  { label: "Final Registration", date: "31 Mar 2026", icon: "calendar", accentDate: true },
+  { label: "Final Registration", date: "31 Mar 2026", icon: "register" },
 ]
 
 export const whyJoinIntro =

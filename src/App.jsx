@@ -4,9 +4,9 @@ import HomePage from "./pages/HomePage"
 
 export default function App() {
   return (
-    <div style={{ minHeight: "100vh", background: "#fff" }}>
+    <div className="app-shell">
       <Navbar />
-      <main>
+      <main className="app-shell__main">
         <HomePage />
       </main>
       <Footer />
