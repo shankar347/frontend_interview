@@ -431,6 +431,23 @@ export default function Navbar() {
 
           {menuOpen ? (
             <div className="icaebms-mobile-panel">
+              <div className="icaebms-mobile-panel__tools">
+                <p className="icaebms-mobile-panel__label">Language</p>
+                <div className="icaebms-lang-shell--drawer icaebms-translate-cluster">
+                  <LanguagePicker
+                    id="icaebms-lang-drawer"
+                    aria-label="Language Translate Widget"
+                    options={GOOGLE_TRANSLATE_LANGUAGE_OPTIONS}
+                    value={selectedLang}
+                    rowClassName="icaebms-lang-row--drawer"
+                    selectExtraStyle={{ width: "100%", maxWidth: "100%", minWidth: 0, flex: 1 }}
+                    onChange={(code) => {
+                      applyLanguage(code)
+                      setMenuOpen(false)
+                    }}
+                  />
+                </div>
+              </div>
               {navItems.map((item) => (
                 <div key={item.label}>
                   <a href={item.href} className="icaebms-mob-link" onClick={() => setMenuOpen(false)}>
@@ -445,6 +462,15 @@ export default function Navbar() {
                     : null}
                 </div>
               ))}
+              <a
+                href="#deadlines"
+                className="icaebms-nav-cta icaebms-nav-cta--drawer"
+                onClick={() => {
+                  setMenuOpen(false)
+                }}
+              >
+                Login
+              </a>
             </div>
           ) : null}
         </nav>

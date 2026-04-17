@@ -419,6 +419,55 @@ select.icaebms-lang-select.icaebms-lang-select--ui:focus {
   background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
 }
 
+.icaebms-mobile-panel__tools {
+  padding: 0.35rem 0.35rem 0.85rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.55);
+}
+
+.icaebms-mobile-panel__label {
+  margin: 0 0 0.45rem 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.icaebms-lang-shell--drawer {
+  padding: 0.35rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 116, 139, 0.45);
+  background: rgba(15, 23, 42, 0.65);
+}
+
+.icaebms-lang-row--drawer {
+  width: 100%;
+  gap: 0.55rem;
+}
+
+.icaebms-lang-row--drawer .icaebms-lang-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.icaebms-lang-shell--drawer select.icaebms-lang-select.icaebms-lang-select--ui {
+  min-width: 0 !important;
+  max-width: none;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.icaebms-nav-cta--drawer {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.65rem 1rem;
+}
+
 .icaebms-mob-link {
   display: block;
   color: #f1f5f9;
@@ -452,37 +501,19 @@ select.icaebms-lang-select.icaebms-lang-select--ui:focus {
     display: none !important;
   }
 
+  .icaebms-nav-corner {
+    display: none !important;
+  }
+
   .icaebms-menu-btn {
     display: block !important;
     flex-shrink: 0;
+    margin-left: auto;
   }
 
-  .icaebms-nav-corner {
-    flex: 1 1 auto;
-    justify-content: flex-end;
-    min-width: 0;
-    gap: 0.35rem;
-  }
-
-  .icaebms-lang-shell--corner select.icaebms-lang-select.icaebms-lang-select--ui {
-    max-width: min(104px, 30vw);
-    font-size: 0.58rem;
-    padding: 0.18rem 0.95rem 0.18rem 0.3rem;
-  }
-
-  .icaebms-lang-shell--corner .icaebms-lang-icon {
-    width: 22px;
-    height: 22px;
-  }
-
-  .icaebms-lang-shell--corner .icaebms-lang-icon img {
-    width: 13px;
-    height: 13px;
-  }
-
-  .icaebms-nav-corner .icaebms-nav-cta {
-    padding: 0.32rem 0.6rem;
-    font-size: 0.65rem;
+  .icaebms-nav-bar-inner {
+    flex-wrap: nowrap;
+    justify-content: space-between;
   }
 }
 
